@@ -1,5 +1,4 @@
 from flask import Flask, request, send_from_directory
-from flask_cors import CORS
 from datetime import datetime
 from messages import mailbox
 import whisper as w
@@ -8,7 +7,6 @@ import os
 model = w.load_model("tiny")
 
 app = Flask(__name__)
-#CORS(app)
 
 my_mailbox = mailbox()
 max_len = int(10e4)
@@ -44,4 +42,4 @@ def list_recordings():
     return my_mailbox.messages
 
 if __name__ == '__main__':
-    app.run(port = 5001, debug=True)
+    app.run(host="0.0.0.0", port=8080, debug=True)
