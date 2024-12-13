@@ -5,9 +5,8 @@ WORKDIR /code
 ADD ./requirements.txt /code/requirements.txt
 RUN pip install -r requirements.txt
 
-RUN pip install --upgrade pip && \
-    pip install torch && \
-    pip install git+https://github.com/openai/whisper.git
+RUN pip install "git+https://github.com/openai/whisper.git" 
+RUN apt-get install -y ffmpeg
 
 ADD . /code
 
