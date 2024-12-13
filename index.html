@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<head>
+    <title>Camille Rullán</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body id="home" data-type="text" data-label="home" class="node">
+    <h1>Camille Rullán</h1>
+    <p>
+        Welcome to my website! Turn the VOLUME UP!!!!!!!!
+    </p>
+    <p class="content" style="display:none;">
+        Welcome to my web site.
+    </p>
+
+
+
+    <div class="node" data-type="text" data-label="bio" style="display: none;"> <!-- to read the bio press 1.. -->
+        <p class="content"> Here is my bio. Geckos are a group of usually small, usually nocturnal lizards. They are found on every continent except
+        Antarctica. Many species of gecko have adhesive toe pads which enable them to climb walls and even windows. </p>
+    </div>
+
+    <ul class="node" data-type="text" data-label="links" style="display: none;"><!-- to read the links press 2 (or say links).. -->
+        <p class="content"> Here are the link options. </p>
+        <li class="node" data-type="link" data-label="github"><a href="https://github.com/camille-rb/"> github </a></li>
+        <li class="node" data-type="link" data-label="googl scholar"><a href="https://scholar.google.com/citations?user=q3Dm5UMAAAAJ&hl=en">googl scholar</a></li>
+    </ul>
+
+    <div class="node" data-type="text" data-label="voicemail" style="display: none;">
+        <p class="content"> You can leave me a voicemail or listen to the last voicemail someone sent me.</p>
+        <div class="node" data-type="voicemail" data-label="leave a voicemail" style="display: none;">
+            <p class="content"> The voicemail recording is limited to 30 seconds. Please leave your name and remember to be cool.</p>
+        </div>
+        <div class="node" data-type="voicemail" data-label="the last voicemail" style="display: none;">
+            <p class="content">Here's the last voicemail.</p>
+        </div>
+        </div>
+
+    <div class="phoneScreen">
+        <div id="voicemail-display"></div>
+    </div>
+    <div id="numContainer" class="numContainer">
+        <p data-num="1"></p>
+        <p data-num="2"></p>
+        <p data-num="3"></p>
+        <p data-num="4"></p>
+        <p data-num="5"></p>
+        <p data-num="6"></p>
+        <p data-num="7"></p>
+        <p data-num="8"></p>
+        <p data-num="9"></p>
+        <p data-num="*"></p>
+        <p data-num="0"></p>
+        <p data-num="_"></p>
+    </div>
+</body>
+
+<span id="countdown"></span>
+
+<script type="module" src="tree.js"></script>
+
+
+</html>
