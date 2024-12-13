@@ -1,0 +1,14 @@
+# Python stuff
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+
+# Environment
+env/
+venv/
+
+# Temp files
+*.mp3
+temp_message.mp3
