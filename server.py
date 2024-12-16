@@ -34,6 +34,7 @@ def new_message():
     os.remove(temp_file)
 
     message =  {"text": result["text"], "timestamp": timestamp}
+    print('message received')
     my_mailbox.add_message(message)
     return "success!", 200
 
