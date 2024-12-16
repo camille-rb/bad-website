@@ -78,7 +78,7 @@ export async function startRecording() {
 
 export async function playLatestVoicemail() {
     try {
-        const response = await fetch('http://localhost:5001/messages');
+        const response = await fetch('http://camille.rcdis.co');
         const data = await response.json();
         return data.map((message, index) => 
             `Message ${index + 1}: ${message.text} (${message.timestamp})`
@@ -99,7 +99,7 @@ async function uploadAudio(audioBlob) {
         const formData = new FormData();
         formData.append('audio', audioBlob, 'recording.mp3');
 
-        const response = await fetch('http://localhost:5001/messages', {
+        const response = await fetch('http://camille.rcdis.co', {
             method: 'POST',
             body: formData
         });
