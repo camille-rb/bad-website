@@ -1,4 +1,5 @@
 from flask import Flask, request, send_from_directory
+from flask_cors import CORS
 from datetime import datetime
 from messages import mailbox
 import whisper as w
@@ -7,6 +8,7 @@ import os
 model = w.load_model("tiny", download_root="/whisperdata")
 
 app = Flask(__name__)
+CORS(app)
 
 my_mailbox = mailbox() #todo -- save text files to a .json file, and just serve up the last XX number of files 
 max_len = int(10e4)
