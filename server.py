@@ -10,7 +10,7 @@ model = w.load_model("tiny", download_root="/whisperdata")
 app = Flask(__name__)
 CORS(app)
 
-my_mailbox = mailbox() #todo -- save text files to a .json file, and just serve up the last XX number of files 
+my_mailbox = mailbox(size_limit = 10) #todo -- save text files to a .json file, and just serve up the last XX number of files 
 max_len = int(10e4)
 
 
