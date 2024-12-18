@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.speak(sayThis)
 
     let displayElement = document.getElementById('voicemail-display');
-    displayElement.innerHTML = "Welcome to my website!";
+    displayElement.innerHTML = "Welcome to my website! Turn the volume UP!!!!!!";
 
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
