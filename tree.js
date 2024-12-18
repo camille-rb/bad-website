@@ -26,17 +26,17 @@ class TreeElement {
 function generateMessage(node) {
     let childrenMessage = "";
     for (let i = 0; i < node.children.length; i++) {
-        childrenMessage = childrenMessage + ` for ${node.children[i].label}, press ${i + 1}.`;
+        childrenMessage = childrenMessage + `Press ${i + 1} for ${node.children[i].label}.`;
     }
 
     let zeroButtonMessage;
     if (node.label === 'home') {
         zeroButtonMessage = "";
     } else {
-        zeroButtonMessage = " to go back, press 0.";
+        zeroButtonMessage = "Press 0 to go back. ";
     }
 
-    let myMessage = childrenMessage + zeroButtonMessage + " to repeat, press asterisk.";
+    let myMessage = childrenMessage + zeroButtonMessage + "Press asterisk to repeat.";
     return myMessage;
 }
 
