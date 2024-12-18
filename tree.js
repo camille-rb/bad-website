@@ -56,6 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let sayThis = createSpeech(homeNode.content + generateMessage(homeNode))
     window.speechSynthesis.speak(sayThis)
 
+    let displayElement = document.getElementById('voicemail-display');
+    displayElement.innerHTML = "Welcome to my website!";
+
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
 
@@ -110,10 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 } else if (action === 'the last voicemail') {
                     const voicemail_text = await playLatestVoicemail()
-                    const displayElement = document.getElementById('voicemail-display');
-                    if (displayElement) {
-                        displayElement.innerHTML = voicemail_text;
-                    }
+                    displayElement.innerHTML = voicemail_text;
+                    
                     sayThis.text = "These are the latest voicemails. To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
 

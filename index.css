@@ -6,56 +6,58 @@ body {
 }
 
 
-/* If you want to center the image specifically (since it's quite wide) */
-img {
-    max-width: 100%;  /* This makes sure the image doesn't overflow on small screens */
-    height: auto;     /* This maintains the image aspect ratio */
-}
 
-/* Keep your existing numContainer styles */
-.numContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(4, 61.75px);
-    background-image: url("./phone.jpg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 247px;
-    width: 300px;
-    margin: 0 auto;  /* This helps center the numContainer */
-}
-
-.phoneScreen {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    background-image: url("./phone_screen.jpg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    height: 300px;
-    width: 300px;
-    position: relative;
-  }
-  
-  #voicemail-display {
+/* Phone container - centers the Nokia phone */
+.phoneContainer {
     position: absolute;
-    top: 25px;
-    width: 220px;
+    background-image: url("./phone-full.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 300px; /* adjust as needed */
+    height: 700px; /* adjust as needed */
+    margin: 0 auto;  /* Centers horizontally */
+}
+
+
+/* Phone screen - positioned to align with green screen */
+.phoneScreen {
+    position: absolute;
+    top: 185px;        /* Vertically centered (half of parent height) */
+    left: 50%;         /* Center horizontally */
+    transform: translateX(-50%);  /* Perfect horizontal centering */
+    width: 200px;      /* 80% of 300px */
+    height: 150px;     /* 60% of 700px */
+}
+
+.numContainer {
+    position: absolute;
+    top: 455px;    /* Adjust based on Nokia keypad position */
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    grid-template-columns: repeat(3, 78px);
+    grid-template-rows: repeat(4, 50.75px);
+    height: 203px;
+    width: 234px;
+}
+
+#voicemail-display {
+    position: absolute;
+    width: 200px;
     height: 150px;
     overflow-y: auto;
     font-family: monospace;
     font-size: 14px;
     text-align: left;
-  }
+}
 
-/* Minimal scrollbar styling */
 #voicemail-display::-webkit-scrollbar {
-width: 4px;
+    width: 4px;
 }
 
 #voicemail-display::-webkit-scrollbar-thumb {
-background: #888;
-border-radius: 2px;
+    background: #888;
+    border-radius: 2px;
 }
 
 p[data-num] {
