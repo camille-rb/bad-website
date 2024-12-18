@@ -26,7 +26,7 @@ class TreeElement {
 function generateMessage(node) {
     let childrenMessage = "";
     for (let i = 0; i < node.children.length; i++) {
-        childrenMessage = childrenMessage + `Press ${i + 1} for ${node.children[i].label}.`;
+        childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
     }
 
     let zeroButtonMessage;
@@ -43,7 +43,7 @@ function generateMessage(node) {
 function createSpeech(text) {
     const sayThis = new SpeechSynthesisUtterance(text)
     //sayThis.voice = speechSynthesis.getVoices()[0]
-    sayThis.rate = 0.8
+    sayThis.rate = 0.75
     //sayThis.pitch = 0.8
     return sayThis
 }
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.speak(sayThis)
 
     let displayElement = document.getElementById('voicemail-display');
-    displayElement.innerHTML = "Welcome to my website! Turn the volume UP!!!!!!";
+    displayElement.innerHTML = " welcome to my website! turn the volume UP!!!!!! ";
 
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
