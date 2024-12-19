@@ -89,18 +89,3 @@ p[data-num] {
     height: 100%;
 }
 
-
-/* Mobile styles */
-@media screen and (max-width: 576px) {
-    #voicemail-display {
-        font-size: 30px;  /* Slightly larger for mobile */
-    }
-}
-
-/* Add media query for very tall screens */
-@media (min-aspect-ratio: 9/16) {
-    .phoneContainer {
-        height: 90vh;
-        width: auto;
-    }
-}
