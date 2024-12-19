@@ -89,6 +89,14 @@ p[data-num] {
     height: 100%;
 }
 
+@media only screen and (max-width: 640px){
+	h3 {
+		font-size: 200px !important;
+	}
+	p {
+		font-size: 100px !important;
+    }
+}
 /* Add media query for very tall screens */
 @media (min-aspect-ratio: 9/16) {
     .phoneContainer {
