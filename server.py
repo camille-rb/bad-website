@@ -42,7 +42,7 @@ def new_message():
 
 @app.route('/messages')
 def list_recordings():
-    return my_mailbox.messages.reverse()
+    return my_mailbox.get_messages()
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)

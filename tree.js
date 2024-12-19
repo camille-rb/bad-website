@@ -30,7 +30,7 @@ function generateMessage(node) {
         childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
         menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br>`;
     }
-    
+    currentMenu = `menu: ${node.label} <br>`
     let zeroButtonMessage;
     if (node.label === 'home') {
         zeroButtonMessage = "";
@@ -39,7 +39,7 @@ function generateMessage(node) {
     }
 
     let myMessage = childrenMessage + zeroButtonMessage + "Press asterisk to repeat.";
-    menuOptions = menuOptions + `{0: return ; *: repeat}`
+    menuOptions = currentMenu + menuOptions + `<br> {0: return ; *: repeat}`
     return {
         audioMessage: myMessage,
         displayMenu: menuOptions

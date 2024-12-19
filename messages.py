@@ -6,3 +6,5 @@ class mailbox:
         self.messages.append(message)
         if len(self.messages) > self.size_limit:
             self.messages = self.messages[-self.size_limit:]
+    def get_messages(self):
+        return self.messsages.reverse()
