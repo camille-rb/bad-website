@@ -41,12 +41,12 @@ function generateMessage(node) {
     let currentMenu = `<strong>current menu </strong>: ${node.label} <br><br>`
     let zeroButtonMessage;
     if (node.label === 'home') {
-        zeroButtonMessage = "";
+        zeroButtonMessage = "Press 0 to go back. Press asterisk to repeat.";
     } else {
-        zeroButtonMessage = "Press 0 to go back. ";
+        zeroButtonMessage = " ";
     }
 
-    let myMessage = childrenMessage + zeroButtonMessage + "Press asterisk to repeat.";
+    let myMessage = childrenMessage + zeroButtonMessage;
     menuOptions = currentMenu + menuOptions 
     return {
         audioMessage: myMessage,
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sayThis = createSpeech(homeNode.content + message.audioMessage)
 
     let displayElement = document.getElementById('voicemail-display');
-    let navigationMenu = `<br> {0: return ; *: repeat}`
+    let navigationMenu = `<br> {0:return; *:repeat}`
     let currentNode = homeNode
 
     startButton.addEventListener('click', () => {
@@ -163,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 2000);
                     } else {
                         message = generateMessage(currentNode)
-                        sayThis = createSpeech(currentNode.content + message.audioMessage);
+                        sayThis = createSpeech(message.audioMessage);
                         window.speechSynthesis.speak(sayThis);
                         displayElement.innerHTML = message.displayMenu + currentNode.content + '<br>' + navigationMenu
                     }
