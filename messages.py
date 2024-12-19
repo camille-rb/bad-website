@@ -14,18 +14,25 @@ class mailbox:
     
     def add_message(self, message):
         try:
+            print(f"Adding message to {self.filename}")
             with open(self.filename, 'r') as f:
                 messages = json.load(f)
+            print("Current messages:", messages)
             messages.append(message)
+            print("Messages after append:", messages)
             with open(self.filename, 'w') as f:
                 json.dump(messages[-self.size_limit:], f)
+            print("Messages saved successfully")
         except Exception as e:
             print(f"Error saving message: {e}")
             
     def get_messages(self):
         try:
+            print(f"Reading messages from {self.filename}")
             with open(self.filename, 'r') as f:
-                return json.load(f)
+                messages = json.load(f)
+            print("Retrieved messages:", messages)
+            return messages
         except Exception as e:
             print(f"Error reading messages: {e}")
             return []

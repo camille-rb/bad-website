@@ -38,6 +38,8 @@ def new_message():
     os.remove(temp_file)
     message = {"text": result["text"], "timestamp": timestamp}
     my_mailbox.add_message(message)
+    current_messages = my_mailbox.get_messages()
+    print("Current messages in mailbox:", current_messages)
     return "success!", 200
 
 @app.route('/messages')
