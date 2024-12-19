@@ -36,9 +36,9 @@ export async function startRecording() {
                 console.log(`${secondsLeft} seconds left`);
 
                 // Update display - assuming you add a span with id="countdown" to your HTML
-                const countdownDisplay = document.getElementById('countdown');
+                const countdownDisplay = document.getElementById('voicemail-display');
                 if (countdownDisplay) {
-                    countdownDisplay.textContent = `Recording: ${secondsLeft} seconds left`;
+                    countdownDisplay.innerHTML = countdownDisplay.innerHTML + `recording... <br> ${secondsLeft} seconds left`;
                 }
 
                 if (secondsLeft <= 0) {

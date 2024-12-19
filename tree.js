@@ -110,8 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (action === 'leave a voicemail') {
                     message = generateMessage(currentNode);
                     sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
-                    let countdownInterval; // Declare this in outer scope so setTimeout can access it
-                    displayElement.innerHTML = message.displayMenu;
+                    displayElement.innerHTML = message.displayMenu + `<br> you have 10 seconds to leave a voicemail` + navigationMenu;
 
                     const isEnded = new Promise((resolve) => {
                         sayThis.onend = resolve;
@@ -119,19 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     window.speechSynthesis.speak(sayThis);
                     await isEnded;
-                    let secondsLeft = 10;
-                    countdownInterval = setInterval(() => {
-                      secondsLeft--;
-                      displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left` + navigationMenu;
-                    }, 1000);
-                  
                     await startRecording();  
-                    
-                    clearInterval(countdownInterval);
+
                     displayElement.innerHTML = message.displayMenu + '<br> done recording!' + navigationMenu;
-                    setTimeout(() => {
-                      displayElement.innerHTML = message.displayMenu;
-                    }, 2000);
 
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
@@ -139,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (action === 'the last voicemail') {
                     message = generateMessage(currentNode)
                     const voicemail_text = await playLatestVoicemail()
-                    displayElement.innerHTML = message.displayMenu + voicemail_text + navigationMenu;
+                    displayElement.innerHTML = message.displayMenu + voicemail_text + `<br>` + navigationMenu;
                     
                     sayThis.text = "These are the latest voicemails. To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
