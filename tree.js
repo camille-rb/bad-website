@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 sayThis = createSpeech('invalid number clicked!')
                 window.speechSynthesis.speak(sayThis);
-                displayElement.innerHTML = 'invalid number clicked :('
+                displayElement.innerHTML = 'invalid number clicked \n :('
                 return;
             }
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle any non-number, non-asterisk input
             sayThis.text = 'invalid number clicked!';
             window.speechSynthesis.speak(sayThis);
-            displayElement.innerHTML = 'invalid number clicked :('
+            displayElement.innerHTML = 'invalid number clicked \n :('
         }
     });
 });
