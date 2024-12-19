@@ -75,7 +75,7 @@ p[data-num] {
 /* Mobile styles */
 @media screen and (min-width: 576px) {
     #voicemail-display {
-        font-size: 50px;  /* Slightly larger for mobile */
+        font-size: 30px;  /* Slightly larger for mobile */
     }
 }
 
