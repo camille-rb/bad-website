@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let sayThis = createSpeech(homeNode.content + message.audioMessage)
 
     let displayElement = document.getElementById('voicemail-display');
-    let navigationMenu = `<br> {0:return; *:repeat}`
+    let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
     startButton.addEventListener('click', () => {
@@ -109,6 +109,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.speak(sayThis);
         }
+        buttonAudio.play().then(() => buttonAudio.pause());
+        voicemailAudio.play().then(() => voicemailAudio.pause());
     });
 
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
