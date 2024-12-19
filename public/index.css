@@ -9,6 +9,10 @@ body {
     overflow: hidden;
 }
 
+h1 {
+    font-size: 25vw;
+}
+
 .startingButton{
     position: absolute;
     top: 35%;
