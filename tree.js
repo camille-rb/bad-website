@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let displayElement = document.getElementById('voicemail-display');
     let navigationMenu = `<br> {0: return ; *: repeat}`
-    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br>" + message.displayMenu + + navigationMenu;
+    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
 
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
@@ -101,50 +101,47 @@ document.addEventListener('DOMContentLoaded', () => {
                 message = generateMessage(currentNode)
                 sayThis = createSpeech(currentNode.content + message.audioMessage);
                 window.speechSynthesis.speak(sayThis);
-                displayElement.innerHTML = message.displayMenu + + navigationMenu
+                displayElement.innerHTML = message.displayMenu + navigationMenu
             } else if (currentNode.type === 'link') {
                 window.location.href = currentNode.content;
             }
             else if (currentNode.type === 'voicemail') {
                 const action = currentNode.label;
                 if (action === 'leave a voicemail') {
-                    message = generateMessage(currentNode)
-                    sayThis = createSpeech( "The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.")
-                    window.speechSynthesis.speak(sayThis);
-                    displayElement.innerHTML = message.displayMenu
+                    message = generateMessage(currentNode);
+                    sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
+                    let countdownInterval; // Declare this in outer scope so setTimeout can access it
                     
-                    let secondsLeft = 10;
-                    const countdownInterval = setInterval(() => {
-                        secondsLeft--;
-                        displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left` + navigationMenu;
-
-                    }, 1000);
-
-                    setTimeout(() => {
-                        clearInterval(countdownInterval);
-        
-                        if (countdownDisplay) {
-                            displayElement.innerHTML =  message.displayMenu + '<br> done recording!' + navigationMenu;
-                            setTimeout(() => {
-                                displayElement.innerHTML = message.displayMenu;
-                            }, 2000);
-                        }
-                        resolve()
-                    }, secondsLeft * 1000)
-
                     const isEnded = new Promise((resolve, reject) => {
-                        sayThis.onend = resolve
-                    })
-                    
-                    await isEnded
-                    await startRecording()
+                        sayThis.onend = () => {
+                        displayElement.innerHTML = message.displayMenu;
+                        let secondsLeft = 10;
+                        countdownInterval = setInterval(() => {
+                            secondsLeft--;
+                            displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left` + navigationMenu;
+                        }, 1000);
+
+                        setTimeout(() => {
+                            clearInterval(countdownInterval);
+                            displayElement.innerHTML = message.displayMenu + '<br> done recording!' + navigationMenu;
+                            setTimeout(() => {
+                            displayElement.innerHTML = message.displayMenu;
+                            }, 2000);
+                            resolve();
+                        }, 10000); // Use fixed 10 seconds instead of secondsLeft
+                        };
+                    });
+
+                    window.speechSynthesis.speak(sayThis);
+                    await isEnded;
+                    await startRecording();
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
 
                 } else if (action === 'the last voicemail') {
                     message = generateMessage(currentNode)
                     const voicemail_text = await playLatestVoicemail()
-                    displayElement.innerHTML = message.displayMenu + voicemail_text + + navigationMenu;
+                    displayElement.innerHTML = message.displayMenu + voicemail_text + navigationMenu;
                     
                     sayThis.text = "These are the latest voicemails. To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
