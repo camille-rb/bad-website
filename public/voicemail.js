@@ -77,13 +77,9 @@ export async function startRecording() {
 }
 
 export async function playLatestVoicemail() {
-    console.log("playLatestVoicemail called"); 
     try {
-        console.log('Fetching voicemails...');
         const response = await fetch('https://camille.rcdis.co/messages');
-        console.log('Response:', response);
         const data = await response.json();
-        console.log('Voicemail data:', data);
         return data.map((message, index) => 
             `Message ${index + 1}: ${message.text} (${message.timestamp})`
         ).join('<br><br>');
@@ -94,30 +90,24 @@ export async function playLatestVoicemail() {
 }
 
 async function uploadAudio(audioBlob) {
-    console.log("Starting upload...");
     if (audioBlob.size > 10 * 1024 * 1024) {
-        console.error('File too large');
         return;
     }
     try {
         const formData = new FormData();
         formData.append('audio', audioBlob, 'recording.mp3');
         
-        console.log("Sending POST request...");
         const response = await fetch('https://camille.rcdis.co/messages', {
             method: 'POST',
             body: formData
         });
         
-        console.log("Upload response status:", response.status);
         const responseText = await response.text();
-        console.log("Upload response text:", responseText);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        console.log('Upload successful!');
     } catch (error) {
         console.error('Error uploading audio:', error);
     }

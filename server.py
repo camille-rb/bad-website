@@ -1,30 +1,23 @@
-from flask import Flask, request, send_from_directory, jsonify  # Add jsonify
+from flask import Flask, request, send_from_directory, jsonify
 from flask_cors import CORS
 from datetime import datetime
 from messages import mailbox
 import whisper as w
 import os
-import logging 
 import sys
 
-# Create a data directory for your JSON file
+# Create data directory for JSON file
 DATA_DIR = 'public/data'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
-logging.basicConfig(
-    filename='server.log',
-    level=logging.DEBUG,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
-
+# Initialize Flask app
 model = w.load_model("tiny", download_root="/whisperdata")
 app = Flask(__name__)
 CORS(app)
-
 my_mailbox = mailbox(filename=os.path.join(DATA_DIR, 'messages.json'))
-max_len = int(10e4)
 
+# Routes
 @app.route('/')
 def serve_index():
     return send_from_directory('public', 'index.html')
@@ -33,46 +26,29 @@ def serve_index():
 def serve_files(path):
     return send_from_directory('public', path)
 
-import sys
-
 @app.route('/messages', methods=['POST'])
 def new_message():
-    sys.stdout.write("Received POST request for new message\n")
-    sys.stdout.flush()
     
     file_size = request.content_length
-    sys.stdout.write(f"File size: {file_size}\n")
-    sys.stdout.flush()
-    
-    if file_size > 10 * 1024 * 1024: # 10MB limit
+    if file_size > 10 * 1024 * 1024:  # 10MB limit
         return "File too large", 400
-    
+
     temp_file = "temp_message.mp3"
-    sys.stdout.write("Saving audio file...\n")
-    sys.stdout.flush()
-    
     request.files['audio'].save(temp_file)
-    sys.stdout.write("Transcribing audio...\n")
-    sys.stdout.flush()
     
     result = model.transcribe(temp_file, fp16=False)
     timestamp = datetime.now().strftime("%d %b %Y, %H:%M")
     os.remove(temp_file)
     
     message = {"text": result["text"], "timestamp": timestamp}
-    sys.stdout.write(f"Message to save: {str(message)}\n")
-    sys.stdout.flush()
     
     my_mailbox.add_message(message)
-    sys.stdout.write("Message saved\n")
-    sys.stdout.flush()
     return "success!", 200
 
 @app.route('/messages')
 def list_recordings():
     messages = my_mailbox.get_messages()
-    print(messages)
-    return jsonify(messages)  # Use jsonify
+    return jsonify(messages)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
