@@ -6,13 +6,14 @@ import whisper as w
 import os
 
 # Create a data directory for your JSON file
-DATA_DIR = 'data'
+DATA_DIR = 'public/data'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
 model = w.load_model("tiny", download_root="/whisperdata")
 app = Flask(__name__)
 CORS(app)
+
 my_mailbox = mailbox(filename=os.path.join(DATA_DIR, 'messages.json'))
 max_len = int(10e4)
 

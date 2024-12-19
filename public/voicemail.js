@@ -78,16 +78,17 @@ export async function startRecording() {
 
 export async function playLatestVoicemail() {
     try {
-        /*const response = await fetch('localhost:8080');*/
+        console.log('Fetching voicemails...');
         const response = await fetch('https://camille.rcdis.co/messages');
-        console.log(response)
+        console.log('Response:', response);
         const data = await response.json();
-        console.log(data)
+        console.log('Voicemail data:', data);
         return data.map((message, index) => 
             `Message ${index + 1}: ${message.text} (${message.timestamp})`
         ).join('<br><br>');
     } catch (error) {
         console.error('Error playing voicemail:', error);
+        return 'Error loading voicemails: ' + error.message;
     }
 }
 
