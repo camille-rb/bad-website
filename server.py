@@ -40,7 +40,9 @@ def new_message():
 
 @app.route('/messages')
 def list_recordings():
-    return jsonify(my_mailbox.get_messages())  # Use jsonify
+    messages = my_mailbox.get_messages()
+    print(messages)
+    return jsonify(messages)  # Use jsonify
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
