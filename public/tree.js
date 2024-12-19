@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     startButton.addEventListener('click', () => {
         startButton.remove();
-        displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
+        displayElement.innerHTML = " welcome to my website! \n (under construction) <br><br>" + message.displayMenu + navigationMenu;
         if ('speechSynthesis' in window) {
             window.speechSynthesis.speak(sayThis);
         }
