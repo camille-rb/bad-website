@@ -28,7 +28,7 @@ function generateMessage(node) {
     let menuOptions = "";
     for (let i = 0; i < node.children.length; i++) {
         childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
-        menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br><br>`;
+        menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br>`;
     }
     
     let zeroButtonMessage;
@@ -39,7 +39,7 @@ function generateMessage(node) {
     }
 
     let myMessage = childrenMessage + zeroButtonMessage + "Press asterisk to repeat.";
-    menuOptions = menuOptions + `0: return <br><br> *: repeat`
+    menuOptions = menuOptions + `{0: return ; *: repeat}`
     return {
         audioMessage: myMessage,
         displayMenu: menuOptions
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.speechSynthesis.speak(sayThis)
 
     let displayElement = document.getElementById('voicemail-display');
-    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu;
+    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br>" + message.displayMenu;
 
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (currentNode.type === 'voicemail') {
                 const action = currentNode.label;
                 if (action === 'leave a voicemail') {
-                    sayThis = createSpeech( "The voicemail recording is limited to 30 seconds. Remember to leave your name and be cool.")
+                    sayThis = createSpeech( "The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.")
                     window.speechSynthesis.speak(sayThis);
                     displayElement.innerHTML = 'recording message ...'
                     const isEnded = new Promise((resolve, reject) => {

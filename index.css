@@ -13,8 +13,8 @@ body {
     background-image: url("./phone-full.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    width: 300px; /* adjust as needed */
-    height: 700px; /* adjust as needed */
+    width: 375px; /* adjust as needed */
+    height: 875px; /* adjust as needed */
     margin: 0 auto;  /* Centers horizontally */
 }
 
@@ -22,31 +22,31 @@ body {
 /* Phone screen - positioned to align with green screen */
 .phoneScreen {
     position: absolute;
-    top: 185px;        /* Vertically centered (half of parent height) */
+    top: 235px;        /* Vertically centered (half of parent height) */
     left: 50%;         /* Center horizontally */
     transform: translateX(-50%);  /* Perfect horizontal centering */
-    width: 200px;      /* 80% of 300px */
-    height: 150px;     /* 60% of 700px */
+    width: 255px;      /* 80% of 300px */
+    height: 185px;     /* 60% of 700px */
 }
 
 .numContainer {
     position: absolute;
-    top: 455px;    /* Adjust based on Nokia keypad position */
+    top: 565px;    /* Adjust based on Nokia keypad position */
     left: 50%;
     transform: translateX(-50%);
     display: grid;
-    grid-template-columns: repeat(3, 78px);
-    grid-template-rows: repeat(4, 50.75px);
-    height: 203px;
-    width: 234px;
+    grid-template-columns: repeat(3, 97.5px);
+    grid-template-rows: repeat(4, 63.75px);
+    height: 255px;
+    width: 295px;
 }
 
 #voicemail-display {
     position: absolute;
     top: 10px;
     bottom: 10px;
-    width: 165px;
-    height: 140px;
+    width: 205px;
+    height: 165px;
     left: 50%;
     transform: translateX(-50%);
     overflow-y: auto;
