@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentNode = homeNode
 
-    const buttonAudio = new Audio('sounds/phone-press.mp3');
-    const voicemailAudio = new Audio('sounds/voicemail-tone.m4a');
+    const buttonAudio = new Audio('/sounds/phone-press.mp3');
+    const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
 
     numContainer.addEventListener('click', async (e) => {
         await playTone(buttonAudio);
