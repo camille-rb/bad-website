@@ -11,8 +11,14 @@
 
 
 
-    <div class="node" data-type="text" data-label="bio" style="display: none;"> <!-- to read the bio press 1.. -->
-        <p class="content"> i'm camille and i'm happy you're here. this is still a work in progress.    </p>
+    <div class="node" data-type="text" data-label="about" style="display: none;"> <!-- to read the bio press 1.. -->
+        <p class="content"> Here are the options. </p>
+        <div class="node" data-type="text-display" data-label="my bio" style="display: none;">
+            <p class="content"> i'm camille and i'm happy you're here. this has been fun to make. this is still a work in progress.    </p>
+        </div>
+        <div class="node" data-type="text-display" data-label="acknowledgements " style="display: none;">
+            <p class="content"> i had a lot of help from people at recurse, but i want to especially thank greg, sebastian, jack, kai, peter and brendan for pairing with me!   </p>
+        </div>
     </div>
 
     <ul class="node" data-type="text" data-label="links" style="display: none;"><!-- to read the links press 2 (or say links).. -->
@@ -22,14 +28,24 @@
     </ul>
 
     <div class="node" data-type="text" data-label="voicemail" style="display: none;">
-        <p class="content"> You can leave me a voicemail or listen to the last voicemail someone sent me.</p>
+        <p class="content"> You can leave me a voicemail or listen to the last voicemails someone sent me.</p>
         <div class="node" data-type="voicemail" data-label="leave a voicemail" style="display: none;">
             <p class="content"> The voicemail recording is limited to ten seconds. Please leave your name and remember to be cool.</p>
         </div>
-        <div class="node" data-type="voicemail" data-label="the last voicemail" style="display: none;">
+        <div class="node" data-type="voicemail" data-label="the last voicemails" style="display: none;">
             <p class="content">Here's the last voicemail.</p>
         </div>
+    </div>
+
+    <ul class="node" data-type="text" data-label="phonebook" style="display: none;">
+        <p class="content"> . </p>
+        <div class="node"  id="phonebook-container" data-type="link-display" data-label="all contacts" style="display: none;">
+            <p class="content"> here are all my contacts. if you want me to add you to the list, let me know! </p>
         </div>
+        <ul class="node" data-type="text-display" data-label="call a random friend" style="display: none;">
+            <p class="content">this is under construction.</p>
+        </ul>
+    </ul>
 
     <div class="phoneContainer">
         <div class="phoneScreen">

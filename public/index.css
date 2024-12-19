@@ -10,7 +10,7 @@ body {
 /* Phone container - centers the Nokia phone */
 .phoneContainer {
     position: absolute;
-    background-image: url("./phone-full.jpg");
+    background-image: url("images/phone-full.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     width: 375px; /* adjust as needed */

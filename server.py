@@ -10,17 +10,17 @@ model = w.load_model("tiny", download_root="/whisperdata")
 app = Flask(__name__)
 CORS(app)
 
-my_mailbox = mailbox(size_limit = 10) #todo -- save text files to a .json file, and just serve up the last XX number of files 
+my_mailbox = mailbox()
 max_len = int(10e4)
 
 
 @app.route('/')
 def serve_index():
-    return send_from_directory('.', 'index.html')
+    return send_from_directory('public', 'index.html')
 
 @app.route('/<path:path>')
-def serve_files(path): #todo - update this to create a public directory for static files 
-    return send_from_directory('.', path)
+def serve_files(path):
+    return send_from_directory('public', path)
 
 @app.route('/messages', methods=['POST'])
 def new_message():
