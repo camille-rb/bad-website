@@ -108,22 +108,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let displayElement = document.getElementById('voicemail-display');
     let navigationMenu = `<br> {0: return ; *: repeat}`
-    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
-
     let currentNode = homeNode
 
     startButton.addEventListener('click', () => {
-        // Remove the button
         startButton.remove();
-        
-        // Start speech synthesis
+        displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
         if ('speechSynthesis' in window) {
             window.speechSynthesis.speak(sayThis);
         }
-        
-        // Initialize audio elements
-        buttonAudio.play().then(() => buttonAudio.pause());
-        voicemailAudio.play().then(() => voicemailAudio.pause());
     });
 
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
