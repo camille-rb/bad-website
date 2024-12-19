@@ -77,6 +77,7 @@ export async function startRecording() {
 }
 
 export async function playLatestVoicemail() {
+    console.log("playLatestVoicemail called"); 
     try {
         console.log('Fetching voicemails...');
         const response = await fetch('https://camille.rcdis.co/messages');

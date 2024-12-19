@@ -156,7 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = currentNode.content;
             } else if (currentNode.type === 'voicemail') {
                 const action = currentNode.label;
+                console.log("Voicemail");
                 if (action === 'leave a voicemail') {
+                    console.log("Voicemail action:", action);
                     message = generateMessage(currentNode);
                     sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
                     displayElement.innerHTML = message.displayMenu + `you have 10 seconds to leave a voicemail <br>` + navigationMenu;
@@ -176,6 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.speechSynthesis.speak(sayThis);
 
                 } else if (action === 'the last voicemail') {
+                    console.log("Voicemail action:", action);
                     message = generateMessage(currentNode)
                     const voicemail_text = await playLatestVoicemail()
                     displayElement.innerHTML = message.displayMenu + voicemail_text + navigationMenu;
