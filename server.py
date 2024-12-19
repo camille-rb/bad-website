@@ -5,7 +5,7 @@ from messages import mailbox
 import whisper as w
 import os
 
-model = w.load_model("tiny", download_root="/whisperdata")
+model = w.load_model("tiny")#, download_root="/whisperdata")
 
 app = Flask(__name__)
 CORS(app)
@@ -42,7 +42,8 @@ def new_message():
 
 @app.route('/messages')
 def list_recordings():
-    return my_mailbox.messages
+    return my_mailbox.messages.reverse()
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    #app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(port=8080, debug=True)

@@ -25,10 +25,12 @@ class TreeElement {
 
 function generateMessage(node) {
     let childrenMessage = "";
+    let menuOptions = "";
     for (let i = 0; i < node.children.length; i++) {
         childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
+        menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br><br>`;
     }
-
+    
     let zeroButtonMessage;
     if (node.label === 'home') {
         zeroButtonMessage = "";
@@ -37,7 +39,11 @@ function generateMessage(node) {
     }
 
     let myMessage = childrenMessage + zeroButtonMessage + "Press asterisk to repeat.";
-    return myMessage;
+    menuOptions = menuOptions + `0: return <br><br> *: repeat`
+    return {
+        audioMessage: myMessage,
+        displayMenu: menuOptions
+    };
 }
 
 function createSpeech(text) {
@@ -53,11 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     homeNode.parent = homeNode;
 
     // play sound
-    let sayThis = createSpeech(homeNode.content + generateMessage(homeNode))
+    let message = generateMessage(homeNode)
+    let sayThis = createSpeech(homeNode.content + message.audioMessage)
     window.speechSynthesis.speak(sayThis)
 
     let displayElement = document.getElementById('voicemail-display');
-    displayElement.innerHTML = " welcome to my website! (under construction) turn the volume UP!!!!!! ";
+    displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu;
 
     const numContainer = document.querySelector('#numContainer');
     let clickedNum;
@@ -84,13 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 sayThis = createSpeech('invalid number clicked!')
                 window.speechSynthesis.speak(sayThis);
+                displayElement.innerHTML = 'invalid number clicked :('
                 return;
             }
 
             // Handle node based on type
             if (currentNode.type === 'text') {
-                sayThis = createSpeech(currentNode.content + generateMessage(currentNode));
+                message = generateMessage(currentNode)
+                sayThis = createSpeech(currentNode.content + message.audioMessage);
                 window.speechSynthesis.speak(sayThis);
+                displayElement.innerHTML = message.displayMenu
             } else if (currentNode.type === 'link') {
                 window.location.href = currentNode.content;
             }
@@ -99,14 +109,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (action === 'leave a voicemail') {
                     sayThis = createSpeech( "The voicemail recording is limited to 30 seconds. Remember to leave your name and be cool.")
                     window.speechSynthesis.speak(sayThis);
-
+                    displayElement.innerHTML = 'recording message ...'
                     const isEnded = new Promise((resolve, reject) => {
                         sayThis.onend = resolve
                     })
                     
                     await isEnded
                     await startRecording()
-                    console.log("recording voice completed")
+                    displayElement.innerHTML = 'recording completed'
                     
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
@@ -124,6 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Handle any non-number, non-asterisk input
             sayThis.text = 'invalid number clicked!';
             window.speechSynthesis.speak(sayThis);
+            displayElement.innerHTML = 'invalid number clicked :('
         }
     });
 });
