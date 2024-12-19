@@ -3,60 +3,61 @@ body {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
 }
 
-
-
-/* Phone container - centers the Nokia phone */
 .phoneContainer {
-    position: absolute;
+    position: relative;  /* Changed from absolute */
     background-image: url("images/phone-full.jpg");
     background-repeat: no-repeat;
-    background-size: cover;
-    width: 375px; /* adjust as needed */
-    height: 875px; /* adjust as needed */
-    margin: 0 auto;  /* Centers horizontally */
+    background-size: contain;  /* Changed from cover */
+    background-position: center;
+    width: min(90vw, 375px);  /* Takes 90% of viewport width up to 375px */
+    height: min(90vh, 875px);  /* Takes 90% of viewport height up to 875px */
+    margin: auto;
+    aspect-ratio: 375/875;  /* Maintains phone proportions */
 }
 
-
-/* Phone screen - positioned to align with green screen */
 .phoneScreen {
     position: absolute;
-    top: 235px;        /* Vertically centered (half of parent height) */
-    left: 50%;         /* Center horizontally */
-    transform: translateX(-50%);  /* Perfect horizontal centering */
-    width: 255px;      /* 80% of 300px */
-    height: 185px;     /* 60% of 700px */
+    top: 26.85%;  /* 235px / 875px */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 68%;  /* 255px / 375px */
+    height: 21.14%;  /* 185px / 875px */
 }
 
 .numContainer {
     position: absolute;
-    top: 565px;    /* Adjust based on Nokia keypad position */
+    top: 64.57%;  /* 565px / 875px */
     left: 50%;
     transform: translateX(-50%);
     display: grid;
-    grid-template-columns: repeat(3, 97.5px);
-    grid-template-rows: repeat(4, 63.75px);
-    height: 255px;
-    width: 295px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    height: 29.14%;  /* 255px / 875px */
+    width: 78.67%;  /* 295px / 375px */
 }
 
 #voicemail-display {
     position: absolute;
-    top: 10px;
-    bottom: 10px;
-    width: 205px;
-    height: 165px;
+    top: 5.4%;  /* 10px / 185px */
+    bottom: 5.4%;  /* 10px / 185px */
+    width: 80.39%;  /* 205px / 255px */
+    height: 89.19%;  /* 165px / 185px */
     left: 50%;
     transform: translateX(-50%);
     overflow-y: auto;
     font-family: monospace;
-    font-size: 14px;
+    font-size: min(14px, 3.5vw);  /* Responsive font size */
     text-align: left;
 }
 
 #voicemail-display::-webkit-scrollbar {
-    width: 4px;
+    width: min(4px, 1vw);
 }
 
 #voicemail-display::-webkit-scrollbar-thumb {
@@ -66,4 +67,14 @@ body {
 
 p[data-num] {
     margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Add media query for very tall screens */
+@media (min-aspect-ratio: 9/16) {
+    .phoneContainer {
+        height: 90vh;
+        width: auto;
+    }
 }
