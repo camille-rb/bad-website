@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         await playTone(voicemailAudio);
                         await startRecording();  
 
-                        displayElement.innerHTML = message.displayMenu + 'done recording! <br>' + navigationMenu;
+                        displayElement.innerHTML = message.displayMenu + 'done recording! the voicemail should load to the mailbox in ~30 s. <br>' + navigationMenu;
 
                         sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                         window.speechSynthesis.speak(sayThis);
