@@ -80,7 +80,9 @@ export async function playLatestVoicemail() {
     try {
         /*const response = await fetch('localhost:8080');*/
         const response = await fetch('https://camille.rcdis.co/messages');
+        console.log(response)
         const data = await response.json();
+        console.log(data)
         return data.map((message, index) => 
             `Message ${index + 1}: ${message.text} (${message.timestamp})`
         ).join('<br><br>');
