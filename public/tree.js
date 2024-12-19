@@ -208,6 +208,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.speechSynthesis.speak(sayThis);
                 displayElement.innerHTML = 'invalid number clicked, please press 0 <br><br> :('
             }
+
+        }
+        catch (error) {
+            console.error('Error:', error);
         }
     });
     
