@@ -111,30 +111,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     message = generateMessage(currentNode);
                     sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
                     let countdownInterval; // Declare this in outer scope so setTimeout can access it
-                    
-                    const isEnded = new Promise((resolve, reject) => {
-                        sayThis.onend = () => {
-                        displayElement.innerHTML = message.displayMenu;
-                        let secondsLeft = 10;
-                        countdownInterval = setInterval(() => {
-                            secondsLeft--;
-                            displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left` + navigationMenu;
-                        }, 1000);
+                    displayElement.innerHTML = message.displayMenu;
 
-                        setTimeout(() => {
-                            clearInterval(countdownInterval);
-                            displayElement.innerHTML = message.displayMenu + '<br> done recording!' + navigationMenu;
-                            setTimeout(() => {
-                            displayElement.innerHTML = message.displayMenu;
-                            }, 2000);
-                            resolve();
-                        }, 10000); // Use fixed 10 seconds instead of secondsLeft
-                        };
+                    const isEnded = new Promise((resolve) => {
+                        sayThis.onend = resolve;
                     });
 
                     window.speechSynthesis.speak(sayThis);
                     await isEnded;
-                    await startRecording();
+                    let secondsLeft = 10;
+                    countdownInterval = setInterval(() => {
+                      secondsLeft--;
+                      displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left` + navigationMenu;
+                    }, 1000);
+                  
+                    await startRecording();  
+                    
+                    clearInterval(countdownInterval);
+                    displayElement.innerHTML = message.displayMenu + '<br> done recording!' + navigationMenu;
+                    setTimeout(() => {
+                      displayElement.innerHTML = message.displayMenu;
+                    }, 2000);
+
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
 
