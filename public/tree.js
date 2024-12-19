@@ -81,6 +81,16 @@ function callRandomFriend() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const startButton = document.createElement('button');
+    startButton.textContent = "Click or tap to start";
+    startButton.style.position = 'fixed';
+    startButton.style.top = '10px';
+    startButton.style.left = '50%';
+    startButton.style.transform = 'translateX(-50%)';
+    startButton.style.zIndex = '1000';
+    document.body.appendChild(startButton);
+
     const friendsContainer = document.getElementById('phonebook-container');
     friendLinks.forEach(friend => {
         friendsContainer.innerHTML += `
@@ -92,22 +102,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const homeNode = new TreeElement(document.getElementById("home"));
     homeNode.parent = homeNode;
-
     // play sound
     let message = generateMessage(homeNode)
     let sayThis = createSpeech(homeNode.content + message.audioMessage)
-    window.speechSynthesis.speak(sayThis)
 
     let displayElement = document.getElementById('voicemail-display');
     let navigationMenu = `<br> {0: return ; *: repeat}`
     displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
 
-    const numContainer = document.querySelector('#numContainer');
-    numContainer.addEventListener('touchstart', () => {
-        initAudio();
-    }, { once: true });
-
     let currentNode = homeNode
+
+    startButton.addEventListener('click', () => {
+        // Remove the button
+        startButton.remove();
+        
+        // Start speech synthesis
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.speak(sayThis);
+        }
+        
+        // Initialize audio elements
+        buttonAudio.play().then(() => buttonAudio.pause());
+        voicemailAudio.play().then(() => voicemailAudio.pause());
+    });
 
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
     const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
