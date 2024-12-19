@@ -55,11 +55,16 @@ function generateMessage(node) {
 }
 
 function createSpeech(text) {
-    const sayThis = new SpeechSynthesisUtterance(text)
-    //sayThis.voice = speechSynthesis.getVoices()[0]
-    sayThis.rate = 0.75
-    //sayThis.pitch = 0.8
-    return sayThis
+    if (!('speechSynthesis' in window)) {
+        console.error('Speech synthesis not supported');
+        return null;
+    }
+    const sayThis = new SpeechSynthesisUtterance(text);
+    sayThis.rate = 0.75;
+    sayThis.onerror = (event) => {
+        console.error('Speech synthesis error:', event);
+    };
+    return sayThis;
 }
 
 function playTone(audio){
@@ -74,10 +79,6 @@ function callRandomFriend() {
     return friendLinks[randomIndex];
 }
 
-function initAudio() {
-    const init = new SpeechSynthesisUtterance('');
-    window.speechSynthesis.speak(init);
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     const friendsContainer = document.getElementById('phonebook-container');
@@ -105,102 +106,109 @@ document.addEventListener('DOMContentLoaded', () => {
     numContainer.addEventListener('touchstart', () => {
         initAudio();
     }, { once: true });
-    let clickedNum;
 
     let currentNode = homeNode
 
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
     const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
 
-    numContainer.addEventListener('click', async (e) => {
-        await playTone(buttonAudio);
-        window.speechSynthesis.cancel();
-        clickedNum = e.target.dataset.num;
+    numContainer.addEventListener('pointerdown', async (e) => {
+        try {
+            // Ensure speech synthesis is active
+            if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+    
+            await playTone(buttonAudio);
+            window.speechSynthesis.cancel();
+            const clickedNum = e.target.dataset.num;
 
-        // Handle asterisk
-        if (clickedNum === '*') {
-            window.speechSynthesis.speak(sayThis);
-            return;
-        }
-
-        // Handle numbers
-        const num = Number(clickedNum);
-        if (!isNaN(num)) {
-            if (num === 0) {
-                currentNode = currentNode.parent;
-            } else if (num <= currentNode.children.length && num > 0) {
-                currentNode = currentNode.children[num - 1];
-            } else {
-                sayThis = createSpeech('invalid number clicked!')
+            // Handle asterisk
+            if (clickedNum === '*') {
                 window.speechSynthesis.speak(sayThis);
-                displayElement.innerHTML = 'invalid number clicked, please press 0 <br><br> :('
                 return;
             }
 
-            // Handle node based on type
-            if (currentNode.type === 'text' || currentNode.type === 'link-display' ) {
-                message = generateMessage(currentNode)
-                sayThis = createSpeech(currentNode.content + message.audioMessage);
-                window.speechSynthesis.speak(sayThis);
-                displayElement.innerHTML = message.displayMenu + navigationMenu
-            } else if (currentNode.type === 'text-display' ) {
-                if (currentNode.label === 'call a random friend') {
-                    const randomFriend = callRandomFriend();
-                    message = generateMessage(currentNode)
-                    displayElement.innerHTML = message.displayMenu + `calling ${randomFriend.name} .... <br>` + navigationMenu
-                    sayThis = createSpeech(`calling ${randomFriend.name} ....`);
-                    window.speechSynthesis.speak(sayThis);
-                    setTimeout(() => {
-                        window.location.href = randomFriend.url;
-                    }, 2000);
+            // Handle numbers
+            const num = Number(clickedNum);
+            if (!isNaN(num)) {
+                if (num === 0) {
+                    currentNode = currentNode.parent;
+                } else if (num <= currentNode.children.length && num > 0) {
+                    currentNode = currentNode.children[num - 1];
                 } else {
+                    sayThis = createSpeech('invalid number clicked!')
+                    window.speechSynthesis.speak(sayThis);
+                    displayElement.innerHTML = 'invalid number clicked, please press 0 <br><br> :('
+                    return;
+                }
+
+                // Handle node based on type
+                if (currentNode.type === 'text' || currentNode.type === 'link-display' ) {
                     message = generateMessage(currentNode)
                     sayThis = createSpeech(currentNode.content + message.audioMessage);
                     window.speechSynthesis.speak(sayThis);
-                    displayElement.innerHTML = message.displayMenu + currentNode.content + '<br>' + navigationMenu
+                    displayElement.innerHTML = message.displayMenu + navigationMenu
+                } else if (currentNode.type === 'text-display' ) {
+                    if (currentNode.label === 'call a random friend') {
+                        const randomFriend = callRandomFriend();
+                        message = generateMessage(currentNode)
+                        displayElement.innerHTML = message.displayMenu + `calling ${randomFriend.name} .... <br>` + navigationMenu
+                        sayThis = createSpeech(`calling ${randomFriend.name} ....`);
+                        window.speechSynthesis.speak(sayThis);
+                        setTimeout(() => {
+                            window.location.href = randomFriend.url;
+                        }, 2000);
+                    } else {
+                        message = generateMessage(currentNode)
+                        sayThis = createSpeech(currentNode.content + message.audioMessage);
+                        window.speechSynthesis.speak(sayThis);
+                        displayElement.innerHTML = message.displayMenu + currentNode.content + '<br>' + navigationMenu
+                    }
                 }
-            }
-            else if (currentNode.type === 'link') {
-                window.location.href = currentNode.content;
-            } else if (currentNode.type === 'voicemail') {
-                const action = currentNode.label;
+                else if (currentNode.type === 'link') {
+                    window.location.href = currentNode.content;
+                } else if (currentNode.type === 'voicemail') {
+                    const action = currentNode.label;
 
-                if (action === 'leave a voicemail') {
+                    if (action === 'leave a voicemail') {
 
-                    message = generateMessage(currentNode);
-                    sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
-                    displayElement.innerHTML = message.displayMenu + `you have 10 seconds to leave a voicemail <br>` + navigationMenu;
+                        message = generateMessage(currentNode);
+                        sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
+                        displayElement.innerHTML = message.displayMenu + `you have 10 seconds to leave a voicemail <br>` + navigationMenu;
 
-                    const isEnded = new Promise((resolve) => {
-                        sayThis.onend = resolve;
-                    });
+                        const isEnded = new Promise((resolve) => {
+                            sayThis.onend = resolve;
+                        });
 
-                    window.speechSynthesis.speak(sayThis);
-                    await isEnded;
-                    await playTone(voicemailAudio);
-                    await startRecording();  
+                        window.speechSynthesis.speak(sayThis);
+                        await isEnded;
+                        await playTone(voicemailAudio);
+                        await startRecording();  
 
-                    displayElement.innerHTML = message.displayMenu + 'done recording! <br>' + navigationMenu;
+                        displayElement.innerHTML = message.displayMenu + 'done recording! <br>' + navigationMenu;
 
-                    sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
-                    window.speechSynthesis.speak(sayThis);
+                        sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
+                        window.speechSynthesis.speak(sayThis);
 
-                } else if (action === 'the last voicemails') {
+                    } else if (action === 'the last voicemails') {
 
-                    message = generateMessage(currentNode)
-                    const voicemail_text = await playLatestVoicemail()
-                    displayElement.innerHTML = message.displayMenu + voicemail_text + navigationMenu;
-                    
-                    sayThis.text = "These are the latest voicemails. To go back, press 0.";
-                    window.speechSynthesis.speak(sayThis);
+                        message = generateMessage(currentNode)
+                        const voicemail_text = await playLatestVoicemail()
+                        displayElement.innerHTML = message.displayMenu + voicemail_text + navigationMenu;
+                        
+                        sayThis.text = "These are the latest voicemails. To go back, press 0.";
+                        window.speechSynthesis.speak(sayThis);
 
+                    }
                 }
+            } else {
+                // Handle any non-number, non-asterisk input
+                sayThis.text = 'invalid number clicked!';
+                window.speechSynthesis.speak(sayThis);
+                displayElement.innerHTML = 'invalid number clicked, please press 0 <br><br> :('
             }
-        } else {
-            // Handle any non-number, non-asterisk input
-            sayThis.text = 'invalid number clicked!';
-            window.speechSynthesis.speak(sayThis);
-            displayElement.innerHTML = 'invalid number clicked, please press 0 <br><br> :('
         }
     });
+    
 });
