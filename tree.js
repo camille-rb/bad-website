@@ -30,7 +30,7 @@ function generateMessage(node) {
         childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
         menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br>`;
     }
-    let currentMenu = `menu: ${node.label} <br>`
+    let currentMenu = `<strong>current menu <strong>: ${node.label} <br><br>`
     let zeroButtonMessage;
     if (node.label === 'home') {
         zeroButtonMessage = "";

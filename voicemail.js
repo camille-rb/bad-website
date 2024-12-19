@@ -86,8 +86,6 @@ export async function playLatestVoicemail() {
         ).join('<br><br>');
     } catch (error) {
         console.error('Error playing voicemail:', error);
-        sayThis.text = "Error playing voicemail";
-        window.speechSynthesis.speak(sayThis);
     }
 }
 
