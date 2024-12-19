@@ -5,6 +5,6 @@ export const friendLinks = [
     },
     {
         name: "marina",
-        url: "marinadeharo.com",
+        url: "https://marinadeharo.com",
     }
 ];
