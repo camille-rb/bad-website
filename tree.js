@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (action === 'leave a voicemail') {
                     message = generateMessage(currentNode);
                     sayThis = createSpeech("The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.");
-                    displayElement.innerHTML = message.displayMenu + `you have 10 seconds to leave a voicemail` + navigationMenu;
+                    displayElement.innerHTML = message.displayMenu + `you have 10 seconds to leave a voicemail <br>` + navigationMenu;
 
                     const isEnded = new Promise((resolve) => {
                         sayThis.onend = resolve;
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     await isEnded;
                     await startRecording();  
 
-                    displayElement.innerHTML = message.displayMenu + 'done recording!' + navigationMenu;
+                    displayElement.innerHTML = message.displayMenu + 'done recording! <br>' + navigationMenu;
 
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
