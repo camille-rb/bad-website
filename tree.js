@@ -107,23 +107,32 @@ document.addEventListener('DOMContentLoaded', () => {
             else if (currentNode.type === 'voicemail') {
                 const action = currentNode.label;
                 if (action === 'leave a voicemail') {
+                    message = generateMessage(currentNode)
                     sayThis = createSpeech( "The voicemail recording is limited to 10 seconds. Remember to leave your name and be cool.")
                     window.speechSynthesis.speak(sayThis);
-                    displayElement.innerHTML = 'recording message ...'
+                    displayElement.innerHTML = message.displayMenu
+                    
+                    let secondsLeft = 10;
+                    const countdownInterval = setInterval(() => {
+                        secondsLeft--;
+                        displayElement.innerHTML = message.displayMenu + `<br> recording... <br> ${secondsLeft} seconds left`;
+
+                    }, 1000);
+
                     const isEnded = new Promise((resolve, reject) => {
                         sayThis.onend = resolve
                     })
                     
                     await isEnded
                     await startRecording()
-                    displayElement.innerHTML = 'recording completed'
-                    
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
+                    displayElement.innerHTML = message.displayMenu + `recording complete!`;
 
                 } else if (action === 'the last voicemail') {
+                    message = generateMessage(currentNode)
                     const voicemail_text = await playLatestVoicemail()
-                    displayElement.innerHTML = voicemail_text;
+                    displayElement.innerHTML = message.displayMenu + voicemail_text;
                     
                     sayThis.text = "These are the latest voicemails. To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
