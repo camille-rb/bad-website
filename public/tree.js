@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     sayThis.text = "Done recording. Thanks for leaving a voicemail! To go back, press 0.";
                     window.speechSynthesis.speak(sayThis);
 
-                } else if (action === 'the last voicemail') {
+                } else if (action === 'the last voicemails') {
                     console.log("Voicemail action:", action);
                     message = generateMessage(currentNode)
                     const voicemail_text = await playLatestVoicemail()
