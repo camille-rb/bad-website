@@ -34,6 +34,7 @@ def new_message():
         return "File too large", 400
 
     temp_file = "temp_message.mp3"
+
     request.files['audio'].save(temp_file)
     
     result = model.transcribe(temp_file, fp16=False)

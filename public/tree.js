@@ -82,14 +82,7 @@ function callRandomFriend() {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const startButton = document.createElement('button');
-    startButton.textContent = "Click or tap to start";
-    startButton.style.position = 'fixed';
-    startButton.style.top = '10px';
-    startButton.style.left = '50%';
-    startButton.style.transform = 'translateX(-50%)';
-    startButton.style.zIndex = '1000';
-    document.body.appendChild(startButton);
+    const startButton = document.getElementById('button');
 
     const friendsContainer = document.getElementById('phonebook-container');
     friendLinks.forEach(friend => {

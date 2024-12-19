@@ -9,6 +9,20 @@ body {
     overflow: hidden;
 }
 
+.startingButton{
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%);
+    z-index: 1000;
+    font-family: monospace;
+    font-size: 14px; 
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    outline: none; 
+}
+
 .phoneContainer {
     position: relative;  /* Changed from absolute */
     background-image: url("images/phone-full.jpg");
