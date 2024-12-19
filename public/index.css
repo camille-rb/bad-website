@@ -52,7 +52,7 @@ body {
     transform: translateX(-50%);
     overflow-y: auto;
     font-family: monospace;
-    font-size: min(14px, 3.5vw);  /* Responsive font size */
+    font-size: max(14px, 3.5vw);  /* Responsive font size */
     text-align: left;
 }
 

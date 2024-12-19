@@ -3,29 +3,51 @@ let audioChunks = [];
 
 export async function startRecording() {
     return new Promise(async (resolve, reject) => {
-        const recordingLength = 10
+        const recordingLength = 10;
         try {
             // Reset chunks array
             audioChunks = [];
 
-            // Get microphone access
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
+            // Request microphone with specific constraints for mobile
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                audio: {
+                    echoCancellation: true,
+                    noiseSuppression: true,
+                    autoGainControl: true
+                }
+            });
 
-            // Handle incoming audio chunks
+            // Create MediaRecorder with mobile-friendly settings
+            mediaRecorder = new MediaRecorder(stream, {
+                mimeType: MediaRecorder.isTypeSupported('audio/webm') 
+                    ? 'audio/webm' 
+                    : 'audio/mp4'
+            });
+
+            // Rest of your code...
             mediaRecorder.ondataavailable = (event) => {
                 audioChunks.push(event.data);
             };
 
-            // Handle recording stop
             mediaRecorder.onstop = async () => {
-                const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-                await uploadAudio(audioBlob);
-                // Stop all tracks to release microphone
-                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                try {
+                    const audioBlob = new Blob(audioChunks, { 
+                        type: mediaRecorder.mimeType 
+                    });
+                    await uploadAudio(audioBlob);
+                    // Stop all tracks to release microphone
+                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                } catch (error) {
+                    console.error('Error in onstop:', error);
+                }
             };
 
-            // Start recording in 1-second chunks
+            // Add error handling
+            mediaRecorder.onerror = (event) => {
+                console.error('MediaRecorder error:', event.error);
+                reject(event.error);
+            };
+
             mediaRecorder.start(1000);
             console.log("Started recording!");
 
