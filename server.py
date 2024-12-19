@@ -27,6 +27,7 @@ def serve_files(path):
 
 @app.route('/messages', methods=['POST'])
 def new_message():
+    print("Received POST request for new message") 
     file_size = request.content_length
     if file_size > 10 * 1024 * 1024: # 10MB limit
         return "File too large", 400

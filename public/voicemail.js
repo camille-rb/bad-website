@@ -94,19 +94,24 @@ export async function playLatestVoicemail() {
 }
 
 async function uploadAudio(audioBlob) {
+    console.log("Starting upload...");
     if (audioBlob.size > 10 * 1024 * 1024) {
         console.error('File too large');
         return;
-      }
+    }
     try {
         const formData = new FormData();
         formData.append('audio', audioBlob, 'recording.mp3');
-
+        
+        console.log("Sending POST request...");
         const response = await fetch('https://camille.rcdis.co/messages', {
-        /*const response = await fetch('localhost:8080', {*/
             method: 'POST',
             body: formData
         });
+        
+        console.log("Upload response status:", response.status);
+        const responseText = await response.text();
+        console.log("Upload response text:", responseText);
 
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
