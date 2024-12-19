@@ -89,3 +89,10 @@ p[data-num] {
     height: 100%;
 }
 
+/* Add media query for very tall screens */
+@media (min-aspect-ratio: 9/16) {
+    .phoneContainer {
+        height: 90vh;
+        width: auto;
+    }
+}
