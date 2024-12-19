@@ -5,6 +5,7 @@ from messages import mailbox
 import whisper as w
 import os
 import logging 
+import sys
 
 # Create a data directory for your JSON file
 DATA_DIR = 'public/data'
@@ -32,29 +33,39 @@ def serve_index():
 def serve_files(path):
     return send_from_directory('public', path)
 
+import sys
+
 @app.route('/messages', methods=['POST'])
 def new_message():
-    logging.info("Received POST request for new message")
+    sys.stdout.write("Received POST request for new message\n")
+    sys.stdout.flush()
+    
     file_size = request.content_length
-    logging.info(f"File size: {file_size}")
+    sys.stdout.write(f"File size: {file_size}\n")
+    sys.stdout.flush()
     
-    if file_size > 10 * 1024 * 1024:
-        logging.error("File too large")
+    if file_size > 10 * 1024 * 1024: # 10MB limit
         return "File too large", 400
-        
-    temp_file = "temp_message.mp3"
-    logging.info("Saving audio file...")
-    request.files['audio'].save(temp_file)
     
-    logging.info("Transcribing audio...")
+    temp_file = "temp_message.mp3"
+    sys.stdout.write("Saving audio file...\n")
+    sys.stdout.flush()
+    
+    request.files['audio'].save(temp_file)
+    sys.stdout.write("Transcribing audio...\n")
+    sys.stdout.flush()
+    
     result = model.transcribe(temp_file, fp16=False)
     timestamp = datetime.now().strftime("%d %b %Y, %H:%M")
     os.remove(temp_file)
     
     message = {"text": result["text"], "timestamp": timestamp}
-    logging.info(f"Message to save: {message}")
+    sys.stdout.write(f"Message to save: {str(message)}\n")
+    sys.stdout.flush()
+    
     my_mailbox.add_message(message)
-    logging.info("Message saved")
+    sys.stdout.write("Message saved\n")
+    sys.stdout.flush()
     return "success!", 200
 
 @app.route('/messages')
