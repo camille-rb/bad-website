@@ -74,6 +74,11 @@ function callRandomFriend() {
     return friendLinks[randomIndex];
 }
 
+function initAudio() {
+    const init = new SpeechSynthesisUtterance('');
+    window.speechSynthesis.speak(init);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const friendsContainer = document.getElementById('phonebook-container');
     friendLinks.forEach(friend => {
@@ -97,6 +102,9 @@ document.addEventListener('DOMContentLoaded', () => {
     displayElement.innerHTML = " welcome to my website! \n (under construction) \n turn the volume UP!!!!!! <br><br>" + message.displayMenu + navigationMenu;
 
     const numContainer = document.querySelector('#numContainer');
+    numContainer.addEventListener('touchstart', () => {
+        initAudio();
+    }, { once: true });
     let clickedNum;
 
     let currentNode = homeNode
