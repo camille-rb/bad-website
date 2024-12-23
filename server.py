@@ -5,6 +5,7 @@ from messages import mailbox
 import whisper as w
 import os
 import sys
+import json
 
 # Create data directory for JSON file
 DATA_DIR = '/messagedata'
