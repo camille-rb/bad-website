@@ -7,7 +7,7 @@ import os
 import sys
 
 # Create data directory for JSON file
-DATA_DIR = 'public/data'
+DATA_DIR = '/messagedata'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 

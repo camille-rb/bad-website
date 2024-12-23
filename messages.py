@@ -2,7 +2,7 @@ import json
 import os
 
 class mailbox:
-    def __init__(self, filename='messages.json', size_limit=10):
+    def __init__(self, filename='/messagedata/messages.json', size_limit=10):
         self.filename = filename
         self.size_limit = size_limit
 
