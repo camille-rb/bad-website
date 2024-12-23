@@ -51,5 +51,24 @@ def list_recordings():
     messages = my_mailbox.get_messages()
     return jsonify(messages)
 
+@app.route('/restore', methods=['POST'])
+def restore_messages():
+    if 'backup' not in request.files:
+        return 'No file provided', 400
+    file = request.files['backup']
+    if file.filename == '':
+        return 'No file selected', 400
+    
+    try:
+        # Read the uploaded JSON
+        backup_data = json.loads(file.read())
+        # Save it to the volume path
+        with open(os.path.join('/messagedata', 'messages.json'), 'w') as f:
+            json.dump(backup_data, f)
+        return 'Backup restored successfully', 200
+    except Exception as e:
+        print(f"Restore error: {str(e)}")  # Added for debugging
+        return f'Error restoring backup: {str(e)}', 500
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8080, debug=True)
