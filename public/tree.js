@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
     const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
 
-    numContainer.addEventListener('pointerdown', async (e) => {
+    numContainer.addEventListener('click', async (e) => {
         try {
             // Ensure speech synthesis is active
             if ('speechSynthesis' in window && window.speechSynthesis.paused) {
