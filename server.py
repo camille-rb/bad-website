@@ -4,16 +4,15 @@ from datetime import datetime
 from messages import mailbox
 import whisper as w
 import os
-import sys
 import json
 
 # Create data directory for JSON file
-DATA_DIR = '/messagedata'
+DATA_DIR = './messagedata'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
 # Initialize Flask app
-model = w.load_model("tiny", download_root="/whisperdata")
+model = w.load_model("tiny", download_root="./whisperdata")
 app = Flask(__name__)
 CORS(app)
 my_mailbox = mailbox(filename=os.path.join(DATA_DIR, 'messages.json'))
@@ -72,4 +71,5 @@ def restore_messages():
         return f'Error restoring backup: {str(e)}', 500
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    #app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(port=8080, debug=True)
