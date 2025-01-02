@@ -218,5 +218,10 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         }
     });
+
+    numContainer.addEventListener('touchstart', async (e) => {
+        e.preventDefault(); // Prevent default touch behavior
+        e.target.click();  // Trigger the click event
+    });
     
 });
