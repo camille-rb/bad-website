@@ -103,6 +103,13 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
+    const buttonAudio = new Audio();
+    buttonAudio.src = '/sounds/phone-press.mp3';
+    buttonAudio.preload = 'auto';  // Explicitly preload
+    const voicemailAudio = new Audio();
+    voicemailAudio.src = '/sounds/phone-press.mp3';
+    voicemailAudio.preload = 'auto';  // Explicitly preload
+    
     startButton.addEventListener('click', () => {
         startButton.remove();
         displayElement.innerHTML = " welcome to my website! \n (under construction) <br><br>" + message.displayMenu + navigationMenu;
@@ -112,9 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         buttonAudio.play().then(() => buttonAudio.pause());
         voicemailAudio.play().then(() => voicemailAudio.pause());
     });
-
-    const buttonAudio = new Audio('/sounds/phone-press.mp3');
-    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
 
     numContainer.addEventListener('click', async (e) => {
         try {
