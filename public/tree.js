@@ -116,16 +116,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttonAudio = new Audio('/sounds/phone-press.m4a');
     const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
 
-    numContainer.addEventListener('click', async (e) => {
+    numContainer.addEventListener('click', handleInteraction);
+    numContainer.addEventListener('touchstart', handleInteraction);
+    async function handleInteraction(e) {
         try {
-            // Ensure speech synthesis is active
+            e.preventDefault();
+    
+            // Get the clicked/touched element
+            const element = e.type === 'touchstart' ? e.touches[0].target : e.target;
+            const clickedNum = element.dataset.num;
+
+            if (!clickedNum) return; 
+
             if ('speechSynthesis' in window && window.speechSynthesis.paused) {
                 window.speechSynthesis.resume();
             }
     
             await playTone(buttonAudio);
             window.speechSynthesis.cancel();
-            const clickedNum = e.target.dataset.num;
 
             // Handle asterisk
             if (clickedNum === '*') {
@@ -217,11 +225,5 @@ document.addEventListener('DOMContentLoaded', () => {
         catch (error) {
             console.error('Error:', error);
         }
-    });
-
-    numContainer.addEventListener('touchstart', async (e) => {
-        e.preventDefault(); // Prevent default touch behavior
-        e.target.click();  // Trigger the click event
-    });
-    
+    }
 });
