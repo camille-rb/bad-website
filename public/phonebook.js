@@ -7,4 +7,10 @@ export const friendLinks = [
         name: "marina",
         url: "https://marinadeharo.com",
     }
+    ,
+    {
+        name: "lara",
+        url: "https://laranorgaard.com/",
+    }
+
 ];

@@ -131,8 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.speak(sayThis);
         }
-        safariPlayAudio(buttonAudio).then(() => buttonAudio.pause());
-        safariPlayAudio(voicemailAudio).then(() => voicemailAudio.pause());
+        playAudio(buttonAudio).then(() => buttonAudio.pause());
+        playAudio(voicemailAudio).then(() => voicemailAudio.pause());
     });
 
     numContainer.addEventListener('click', async (e) => {
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.speechSynthesis.resume();
             }
     
-            await safariPlayAudio(buttonAudio);
+            await playAudio(buttonAudio);
             window.speechSynthesis.cancel();
             const clickedNum = e.target.dataset.num;
 
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         window.speechSynthesis.speak(sayThis);
                         await isEnded;
-                        await safariPlayAudio(voicemailAudio);
+                        await playAudio(voicemailAudio);
                         await startRecording();  
 
                         displayElement.innerHTML = message.displayMenu + 'done recording! the voicemail should load to the mailbox in ~30 s. <br>' + navigationMenu;
