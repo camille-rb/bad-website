@@ -81,17 +81,6 @@ function callRandomFriend() {
 
 function safariPlayAudio(audio) {
     return new Promise((resolve, reject) => {
-        if (!audio.src) {
-            console.error('No audio source set');
-            resolve();
-            return;
-        }
-
-        // Add multiple error handlers
-        audio.onerror = (error) => {
-            console.error('Audio error:', error);
-            resolve(); // Resolve to continue execution
-        };
 
         // Attempt play with comprehensive error handling
         const playPromise = audio.play();
@@ -141,9 +130,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    const buttonAudio = new Audio('/sounds/phone-press.m4a');
+    const buttonAudio = new Audio('/sounds/phone-press.mp3');
     buttonAudio.preload = 'auto';
-    const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
+    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
     voicemailAudio.preload = 'auto';
 
     startButton.addEventListener('click', () => {

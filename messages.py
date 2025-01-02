@@ -28,7 +28,7 @@ class mailbox:
             
             # Save all messages
             with open(self.filename, 'w') as f:
-                json.dump(messages[-self.size_limit:], f)
+                json.dump(messages, f)
                 
         except Exception as e:
             print(f"Error saving message: {e}")
@@ -39,7 +39,7 @@ class mailbox:
         try:
             with open(self.filename, 'r') as f:
                 messages = json.load(f)
-            return messages
+            return messages[-self.size_limit:]
         except Exception as e:
             print(f"Error reading messages: {e}")
             return []
