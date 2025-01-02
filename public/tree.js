@@ -79,12 +79,27 @@ function callRandomFriend() {
     return friendLinks[randomIndex];
 }
 
-// Modify the play method to handle Safari's strict autoplay
 function safariPlayAudio(audio) {
     return new Promise((resolve, reject) => {
+        // Ensure audio is reset
         audio.currentTime = 0;
+
+        // Verify audio source and type
+        if (!audio.src) {
+            console.error('No audio source set');
+            resolve();
+            return;
+        }
+
+        // Add multiple error handlers
+        audio.onerror = (error) => {
+            console.error('Audio error:', error);
+            resolve(); // Resolve to continue execution
+        };
+
+        // Attempt play with comprehensive error handling
         const playPromise = audio.play();
-        
+
         if (playPromise !== undefined) {
             playPromise
                 .then(() => {
@@ -92,8 +107,17 @@ function safariPlayAudio(audio) {
                 })
                 .catch((error) => {
                     console.error('Audio play error:', error);
+                    
+                    // Specific handling for NotSupportedError
+                    if (error.name === 'NotSupportedError') {
+                        console.warn('Audio not supported, skipping playback');
+                    }
+                    
                     resolve(); // Still resolve to continue execution
                 });
+        } else {
+            // Fallback for browsers without play promise
+            resolve();
         }
     });
 }
