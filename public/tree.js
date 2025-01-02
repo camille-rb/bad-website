@@ -34,7 +34,7 @@ function generateMessage(node) {
         if (node.type === 'link-display'){
             menuOptions = menuOptions + `${i + 1}: <a href="${node.children[i].content}">${node.children[i].label}</a><br>`;
         } else {
-            childrenMessage = childrenMessage + ` Press ${i + 1} for ${node.children[i].label}. `;
+            childrenMessage = childrenMessage + `Press ${i + 1} for ${node.children[i].label}. `;
             menuOptions = menuOptions + `${i + 1}: ${node.children[i].label}<br>`;
         }
     }
@@ -43,7 +43,7 @@ function generateMessage(node) {
     if (node.label === 'home') {
         zeroButtonMessage = "Press 0 to go back. Press asterisk to repeat.";
     } else {
-        zeroButtonMessage = " ";
+        zeroButtonMessage = "";
     }
 
     let myMessage = childrenMessage + zeroButtonMessage;
