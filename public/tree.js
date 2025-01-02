@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
         voicemailAudio.play().then(() => voicemailAudio.pause());
     });
 
-    const buttonAudio = new Audio('/sounds/phone-press.m4a');
-    const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
+    const buttonAudio = new Audio('/sounds/phone-press.mp3');
+    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
 
     numContainer.addEventListener('click', async (e) => {
         try {
