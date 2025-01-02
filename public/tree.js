@@ -81,10 +81,6 @@ function callRandomFriend() {
 
 function safariPlayAudio(audio) {
     return new Promise((resolve, reject) => {
-        // Ensure audio is reset
-        audio.currentTime = 0;
-
-        // Verify audio source and type
         if (!audio.src) {
             console.error('No audio source set');
             resolve();
