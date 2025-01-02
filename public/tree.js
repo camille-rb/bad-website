@@ -71,28 +71,8 @@ function callRandomFriend() {
 
 function playAudio(audio) {
     return new Promise((resolve, reject) => {
-
-        // Attempt play with comprehensive error handling
         const playPromise = audio.play();
-
-        if (playPromise !== undefined) {
-            playPromise
-                .then(() => {
-                    audio.onended = resolve;
-                })
-                .catch((error) => {
-                    console.error('Audio play error:', error);
-                    
-                    // Specific handling for NotSupportedError
-                    if (error.name === 'NotSupportedError') {
-                        console.warn('Audio not supported, skipping playback');
-                    }
-                    
-                    resolve(); // Still resolve to continue execution
-                });
-        } else {
-            resolve();
-        }
+        resolve();
     });
 }
 
@@ -123,7 +103,14 @@ document.addEventListener('DOMContentLoaded', () => {
     buttonAudio.preload = 'auto';
     const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
     voicemailAudio.preload = 'auto';
+    const callingAudio = new Audio('/sounds/calling-sound.mp3')
+    callingAudio.preload = 'auto';
+    const ringtoneAudio = new Audio('/sounds/ringtone.mp3')
+    ringtoneAudio.preload = 'auto';
 
+    playAudio(ringtoneAudio).then(() => ringtoneAudio.pause());
+
+    displayElement.innerHTML = "pick up the phone! (volume UP!!)"
 
     startButton.addEventListener('click', () => {
         startButton.remove();
@@ -179,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         displayElement.innerHTML = message.displayMenu + `calling ${randomFriend.name} .... <br>` + navigationMenu
                         sayThis = createSpeech(`calling ${randomFriend.name} ....`);
                         window.speechSynthesis.speak(sayThis);
+                        await playAudio(callingAudio)
                         setTimeout(() => {
                             window.location.href = randomFriend.url;
                         }, 2000);
