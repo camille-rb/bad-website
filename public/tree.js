@@ -118,15 +118,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     numContainer.addEventListener('click', handleInteraction);
     numContainer.addEventListener('touchstart', handleInteraction);
-    async function handleInteraction(e) {
-        try {
-            e.preventDefault();
-    
-            // Get the clicked/touched element
-            const element = e.type === 'touchstart' ? e.touches[0].target : e.target;
-            const clickedNum = element.dataset.num;
 
-            if (!clickedNum) return; 
+    // Add these instead
+    if ('ontouchstart' in window) {
+        // Mobile devices
+        numContainer.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            const touch = e.changedTouches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (element && element.dataset.num) {
+                handleInteraction(element);
+            }
+        });
+    } else {
+        // Desktop devices
+        numContainer.addEventListener('click', (e) => {
+            if (e.target.dataset.num) {
+                handleInteraction(e.target);
+            }
+        });
+    }
+
+    async function handleInteraction(element) {
+        try {
+            const clickedNum = element.dataset.num;
+            if (!clickedNum) return;
 
             if ('speechSynthesis' in window && window.speechSynthesis.paused) {
                 window.speechSynthesis.resume();

@@ -70,7 +70,9 @@ p[data-num] {
     margin: 0;
     width: 100%;
     height: 100%;
-    touch-action: manipulation;
-    -webkit-touch-callout: none;
     cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
 }
