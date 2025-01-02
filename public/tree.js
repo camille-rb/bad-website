@@ -89,18 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
     voicemailAudio.preload = 'auto';
     const callingAudio = new Audio('/sounds/calling-sound.mp3');
     callingAudio.preload = 'auto';
-    const ringtoneAudio = new Audio('/sounds/ringtone.mp3');
-    ringtoneAudio.preload = 'auto';
-
-    ringtoneAudio.addEventListener('canplaythrough', () => {
-        playAudio(ringtoneAudio)
-            .then(() => {
-                displayElement.innerHTML = "pick up the phone! (volume UP!!)";
-            })
-            .catch(error => {
-                console.error('Error playing ringtone:', error);
-            });
-    }, { once: true });
 
     friendLinks.forEach(friend => {
         friendsContainer.innerHTML += `
@@ -119,9 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    playAudio(ringtoneAudio).then(() => ringtoneAudio.pause());
-
-    displayElement.innerHTML = "pick up the phone! (volume UP!!)"
+    displayElement.innerHTML = " <br> <br> pick up the phone! <br> (volume UP!!)"
 
     startButton.addEventListener('click', () => {
         startButton.remove();
