@@ -61,9 +61,6 @@ function createSpeech(text) {
     }
     const sayThis = new SpeechSynthesisUtterance(text);
     sayThis.rate = 0.75;
-    sayThis.onerror = (event) => {
-        console.error('Speech synthesis error:', event);
-    };
     return sayThis;
 }
 
