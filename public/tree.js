@@ -79,8 +79,29 @@ function playAudio(audio) {
 document.addEventListener('DOMContentLoaded', () => {
 
     const startButton = document.getElementById('button');
-
     const friendsContainer = document.getElementById('phonebook-container');
+    const displayElement = document.getElementById('voicemail-display');
+    
+    // Initialize audio elements
+    const buttonAudio = new Audio('/sounds/phone-press.mp3');
+    buttonAudio.preload = 'auto';
+    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
+    voicemailAudio.preload = 'auto';
+    const callingAudio = new Audio('/sounds/calling-sound.mp3');
+    callingAudio.preload = 'auto';
+    const ringtoneAudio = new Audio('/sounds/ringtone.mp3');
+    ringtoneAudio.preload = 'auto';
+
+    ringtoneAudio.addEventListener('canplaythrough', () => {
+        playAudio(ringtoneAudio)
+            .then(() => {
+                displayElement.innerHTML = "pick up the phone! (volume UP!!)";
+            })
+            .catch(error => {
+                console.error('Error playing ringtone:', error);
+            });
+    }, { once: true });
+
     friendLinks.forEach(friend => {
         friendsContainer.innerHTML += `
             <li class="node" data-type="link" data-label="${friend.name}">
@@ -95,18 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let message = generateMessage(homeNode)
     let sayThis = createSpeech(homeNode.content + message.audioMessage)
 
-    let displayElement = document.getElementById('voicemail-display');
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
-
-    const buttonAudio = new Audio('/sounds/phone-press.mp3');
-    buttonAudio.preload = 'auto';
-    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
-    voicemailAudio.preload = 'auto';
-    const callingAudio = new Audio('/sounds/calling-sound.mp3')
-    callingAudio.preload = 'auto';
-    const ringtoneAudio = new Audio('/sounds/ringtone.mp3')
-    ringtoneAudio.preload = 'auto';
 
     playAudio(ringtoneAudio).then(() => ringtoneAudio.pause());
 
