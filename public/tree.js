@@ -64,19 +64,12 @@ function createSpeech(text) {
     return sayThis;
 }
 
-function playTone(audio){
-    return new Promise(resolve =>{
-      audio.play()
-      audio.onended = resolve
-    })
-  }
-
 function callRandomFriend() {
     const randomIndex = Math.floor(Math.random() * friendLinks.length);
     return friendLinks[randomIndex];
 }
 
-function safariPlayAudio(audio) {
+function playAudio(audio) {
     return new Promise((resolve, reject) => {
 
         // Attempt play with comprehensive error handling
@@ -98,7 +91,6 @@ function safariPlayAudio(audio) {
                     resolve(); // Still resolve to continue execution
                 });
         } else {
-            // Fallback for browsers without play promise
             resolve();
         }
     });
