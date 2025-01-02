@@ -79,6 +79,24 @@ function callRandomFriend() {
     return friendLinks[randomIndex];
 }
 
+// Modify the play method to handle Safari's strict autoplay
+function safariPlayAudio(audio) {
+    return new Promise((resolve, reject) => {
+        audio.currentTime = 0;
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise
+                .then(() => {
+                    audio.onended = resolve;
+                })
+                .catch((error) => {
+                    console.error('Audio play error:', error);
+                    resolve(); // Still resolve to continue execution
+                });
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -103,12 +121,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    const buttonAudio = new Audio();
-    buttonAudio.src = '/sounds/phone-press.m4a';
-    buttonAudio.preload = 'auto';  // Explicitly preload
-    const voicemailAudio = new Audio();
-    voicemailAudio.src = '/sounds/phone-press.m4a';
-    voicemailAudio.preload = 'auto';  // Explicitly preload
+    const buttonAudio = new Audio('/sounds/phone-press.m4a');
+    buttonAudio.preload = 'auto';
+    const voicemailAudio = new Audio('/sounds/voicemail-tone.m4a');
+    voicemailAudio.preload = 'auto';
 
     startButton.addEventListener('click', () => {
         startButton.remove();
@@ -116,8 +132,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.speak(sayThis);
         }
-        buttonAudio.play().then(() => buttonAudio.pause());
-        voicemailAudio.play().then(() => voicemailAudio.pause());
+        safariPlayAudio(buttonAudio).then(() => buttonAudio.pause());
+        safariPlayAudio(voicemailAudio).then(() => voicemailAudio.pause());
     });
 
     numContainer.addEventListener('click', async (e) => {
@@ -127,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.speechSynthesis.resume();
             }
     
-            await playTone(buttonAudio);
+            await safariPlayAudio(buttonAudio);
             window.speechSynthesis.cancel();
             const clickedNum = e.target.dataset.num;
 
@@ -191,7 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         window.speechSynthesis.speak(sayThis);
                         await isEnded;
-                        await playTone(voicemailAudio);
+                        await safariPlayAudio(voicemailAudio);
                         await startRecording();  
 
                         displayElement.innerHTML = message.displayMenu + 'done recording! the voicemail should load to the mailbox in ~30 s. <br>' + navigationMenu;
