@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    displayElement.innerHTML = " <br> <br> <br> up the phone! <br><br> (volume UP!!)"
+    displayElement.innerHTML = " <br> <br> <br> pick up the phone! <br><br> (volume UP!!)"
 
     startButton.addEventListener('click', () => {
         startButton.remove();
