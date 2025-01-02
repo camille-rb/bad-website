@@ -10,5 +10,4 @@ env/
 venv/
 
 # Temp files
-*.mp3
 temp_message.mp3
