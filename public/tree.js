@@ -81,6 +81,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const startButton = document.getElementById('button');
     const friendsContainer = document.getElementById('phonebook-container');
     const displayElement = document.getElementById('voicemail-display');
+
+    const BATTERY_STATES = [
+        'images/battery-bar-full.jpg',    // 4 bars
+        'images/battery-bar-three.jpg',    // 3 bars
+        'images/battery-bar-two.jpg',    // 2 bars
+        'images/battery-bar-one.jpg',     // 1 bar
+        'images/battery-bar-empty.jpg'     // 0 bars
+    ];    
     
     // Initialize audio elements
     const buttonAudio = new Audio('/sounds/phone-press.mp3');
@@ -107,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    displayElement.innerHTML = " <br> <br> <br> pick up the phone! <br><br> (volume UP!!)"
+    displayElement.innerHTML = " <br> <br> <strong> incoming call </strong> <br> pick up the phone! <br><br> (volume UP!!)"
 
     startButton.addEventListener('click', () => {
         startButton.remove();
