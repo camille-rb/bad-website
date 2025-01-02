@@ -104,12 +104,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentNode = homeNode
 
     const buttonAudio = new Audio();
-    buttonAudio.src = '/sounds/phone-press.mp3';
+    buttonAudio.src = '/sounds/phone-press.m4a';
     buttonAudio.preload = 'auto';  // Explicitly preload
     const voicemailAudio = new Audio();
-    voicemailAudio.src = '/sounds/phone-press.mp3';
+    voicemailAudio.src = '/sounds/phone-press.m4a';
     voicemailAudio.preload = 'auto';  // Explicitly preload
-    
+
     startButton.addEventListener('click', () => {
         startButton.remove();
         displayElement.innerHTML = " welcome to my website! \n (under construction) <br><br>" + message.displayMenu + navigationMenu;
