@@ -130,10 +130,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let navigationMenu = `<br> {0: return ; *: repeat}`
     let currentNode = homeNode
 
-    const buttonAudio = new Audio('/sounds/phone-press.mp3');
+    const buttonAudio = new Audio('/public/sounds/phone-press.mp3');
     buttonAudio.preload = 'auto';
-    const voicemailAudio = new Audio('/sounds/voicemail-tone.mp3');
+    const voicemailAudio = new Audio('/public/sounds/voicemail-tone.mp3');
     voicemailAudio.preload = 'auto';
+
 
     startButton.addEventListener('click', () => {
         startButton.remove();
