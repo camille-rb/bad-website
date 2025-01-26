@@ -7,12 +7,12 @@ import os
 import json
 
 # Create data directory for JSON file
-DATA_DIR = './messagedata'
+DATA_DIR = '/messagedata'
 if not os.path.exists(DATA_DIR):
     os.makedirs(DATA_DIR)
 
 # Initialize Flask app
-model = w.load_model("tiny", download_root="./whisperdata")
+model = w.load_model("tiny", download_root="/whisperdata")
 app = Flask(__name__)
 CORS(app)
 my_mailbox = mailbox(filename=os.path.join(DATA_DIR, 'messages.json'))
