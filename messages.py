@@ -39,7 +39,7 @@ class mailbox:
         try:
             with open(self.filename, 'r') as f:
                 messages = json.load(f)
-            return messages[-self.size_limit:].reverse()
+            return messages[-self.size_limit:]
         except Exception as e:
             print(f"Error reading messages: {e}")
             return []
