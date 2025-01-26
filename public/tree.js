@@ -76,6 +76,25 @@ function playAudio(audio) {
     });
 }
 
+function batteryLife() {
+    const batteryIndicator = document.querySelector('.batteryIndicator');
+    const img = document.createElement('img');
+    img.src = '/api/placeholder/100/50'; // Replace with your actual image URL
+    img.alt = 'Battery Image';
+    img.classList.add('hidden');
+    batteryIndicator.appendChild(img);
+
+    // Add click event listener to the button
+    const button = document.getElementById('button');
+    button.addEventListener('click', () => {
+        // Show image after 45 seconds
+        setTimeout(() => {
+            img.classList.remove('hidden');
+        }, 45000); // 45 seconds in milliseconds
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const startButton = document.getElementById('button');
