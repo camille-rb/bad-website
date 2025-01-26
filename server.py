@@ -49,7 +49,6 @@ def new_message():
 @app.route('/messages')
 def list_recordings():
     messages = my_mailbox.get_messages()
-    messages.reverse()
     return jsonify(messages)
 
 @app.route('/restore', methods=['POST'])
