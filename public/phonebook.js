@@ -25,12 +25,12 @@ export const friendLinks = [
     ,
     {
         name: "jack",
-        url: "jackcarrick.net",
+        url: "https://jackcarrick.net",
     }
     ,
     {
         name: "recurse",
-        url: "recurse.com",
+        url: "https://recurse.com",
     }
     ,
     {
